@@ -3,7 +3,8 @@ export interface OneInchQuoteResponse {
   gas: number;
 }
 
-export interface OneInchSwapResponse extends OneInchQuoteResponse {
+export interface OneInchSwapResponse {
+  toAmount: string;
   tx: {
     to: string;
     data: string;

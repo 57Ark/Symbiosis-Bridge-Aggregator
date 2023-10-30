@@ -4,7 +4,7 @@ import { TokenRoute } from "../../types/token";
 import { BridgeGasLimit } from "../utils/constants";
 import { getUsdcByChainId, retryRequest } from "../utils/utils";
 import { getBridge } from "./base/getBridge";
-import { getSwap } from "./base/getSwap";
+import { getSwapQuote } from "./base/getSwapQuote";
 
 interface GetProfitParams extends TokenRoute {
   amountFrom: string;
@@ -46,7 +46,7 @@ export const getProfit = async ({
 
   const chainFromSwap = await retryRequest(
     () =>
-      getSwap({
+      getSwapQuote({
         amountFrom,
         tokenFrom: getUsdcByChainId(tokenFrom.chainId),
         tokenTo: tokenFrom,
@@ -64,7 +64,7 @@ export const getProfit = async ({
 
   const chainToSwap = await retryRequest(
     () =>
-      getSwap({
+      getSwapQuote({
         amountFrom: formatUnits(bridge.tokenAmountOut.amount, tokenTo.decimals),
         tokenFrom: tokenTo,
         tokenTo: getUsdcByChainId(tokenTo.chainId),

@@ -1,9 +1,10 @@
 import axios from "axios";
 import { parseUnits } from "ethers/lib/utils.js";
+import { OneInchSwapResponse } from "../../../types/oneInch";
 import { TokenRoute } from "../../../types/token";
-import { oneInchConfig } from "../../utils/constants";
+import { WALLET_ADDRESS, oneInchConfig } from "../../utils/constants";
 
-interface GetSwapParams extends TokenRoute {
+interface getSwapParams extends TokenRoute {
   amountFrom: string;
 }
 
@@ -11,14 +12,13 @@ export const getSwap = async ({
   tokenTo,
   tokenFrom,
   amountFrom,
-}: GetSwapParams) => {
-  const { data } = await axios.get(
-    `https://api.1inch.dev/swap/v5.2/${tokenFrom.chainId}/quote?src=${
-      tokenFrom.address
-    }&dst=${tokenTo.address}&amount=${parseUnits(
-      amountFrom,
-      tokenFrom.decimals
-    )}&includeGas=true`,
+}: getSwapParams) => {
+  const { data } = await axios.get<OneInchSwapResponse>(
+    `https://api.1inch.dev/swap/v5.2/${
+      tokenFrom.chainId
+    }/swap/?from=${WALLET_ADDRESS}&src=${tokenFrom.address}&dst=${
+      tokenTo.address
+    }&amount=${parseUnits(amountFrom, tokenFrom.decimals)}&slippage=1`,
 
     oneInchConfig
   );

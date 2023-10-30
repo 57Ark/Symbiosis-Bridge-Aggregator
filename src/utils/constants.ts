@@ -4,6 +4,7 @@ import { Token } from "../../types/token";
 require("dotenv").config();
 
 export const WALLET_ADDRESS = process.env.WALLET_ADDRESS ?? "";
+export const PRIVATE_KEY = process.env.PRIVATE_KEY ?? "";
 
 export const oneInchConfig = {
   headers: {
