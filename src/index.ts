@@ -30,19 +30,22 @@ const main = async () => {
   );
   console.log(`Profit: \x1b[32m${bestPair.profit}\x1b[0m\n\n`);
 
-  const ok = await yesno({
-    question: `Do you want to bridge ${bestPair.tokenFrom.symbol} from ${networkFrom.name} to ${networkTo.name} for ${bestPair.amount} USDC? (y/n)\n`,
-  });
-
-  if (ok) {
-    await executeRoute({
-      tokenFrom: bestPair.tokenFrom,
-      tokenTo: bestPair.tokenTo,
-      amountFrom: bestPair.amount.toString(),
+  if ((bestPair?.profit ?? 0) >= 0) {
+    const ok = await yesno({
+      question: `Do you want to bridge ${bestPair.tokenFrom.symbol} from ${networkFrom.name} to ${networkTo.name} for ${bestPair.amount} USDC? (y/n)\n`,
     });
-  } else {
-    return;
+
+    if (ok) {
+      await executeRoute({
+        tokenFrom: bestPair.tokenFrom,
+        tokenTo: bestPair.tokenTo,
+        amountFrom: bestPair.amount.toString(),
+      });
+    } else {
+      return;
+    }
   }
+  return;
 };
 
 require("dotenv").config();
