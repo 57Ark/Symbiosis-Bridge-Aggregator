@@ -18,7 +18,7 @@ pnpm ts-node-esm src/index.ts [token]
 Replace `[token]` with the token you want to bridge. For example:
 
 ```
-pnpm nodemon src/index.ts XDAO
+pnpm ts-node-esm src/index.ts XDAO
 ```
 
 ## Available Tokens
