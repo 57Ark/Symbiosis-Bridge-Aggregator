@@ -8,17 +8,35 @@ Before using this bridge, make sure to create an `.env` file with the required c
 
 ## Usage
 
+
+### Bridge
+
 To launch the bridge, run one of the following commands:
 
 
 ```
-pnpm ts-node-esm src/index.ts [token]
+pnpm ts-node-esm src/getBestPair.ts [token]
 ```
 
 Replace `[token]` with the token you want to bridge. For example:
 
 ```
-pnpm ts-node-esm src/index.ts XDAO
+pnpm ts-node-esm src/getBestPair.ts XDAO
+```
+
+### Prices
+
+To check the token prices and info about chains, run one of the following commands:
+
+
+```
+pnpm ts-node-esm src/getPrices.ts [token]
+```
+
+Replace `[token]` with the token you want to bridge. For example:
+
+```
+pnpm ts-node-esm src/getPrices.ts XDAO
 ```
 
 ## Available Tokens

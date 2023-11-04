@@ -1,13 +1,9 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { BigNumber, Wallet, constants } from "ethers";
-import { formatEther, formatUnits, parseUnits } from "ethers/lib/utils";
+import { formatUnits, parseUnits } from "ethers/lib/utils";
 import { IERC20__factory } from "../../types/ethers-contracts/IERC20__factory";
 import { TokenRoute } from "../../types/token";
-import {
-  BridgeGasLimit,
-  PRIVATE_KEY,
-  WALLET_ADDRESS,
-} from "../utils/constants";
+import { PRIVATE_KEY, WALLET_ADDRESS } from "../utils/constants";
 import {
   getNetworkByChainId,
   getUsdcByChainId,
@@ -19,6 +15,7 @@ import { getBridge } from "./base/getBridge";
 import { getGasPrice } from "./base/getGasPrice";
 import { getOneInchRouter } from "./base/getOneInchRouter";
 import { getSwap } from "./base/getSwap";
+import { getTxCount } from "./base/getTxCount";
 
 interface getRouteParams extends TokenRoute {
   amountFrom: string;
@@ -37,6 +34,11 @@ export const executeRoute = async ({
 
   const signerFrom = new Wallet(PRIVATE_KEY, providerFrom);
   const signerTo = new Wallet(PRIVATE_KEY, providerTo);
+
+  const [txCountFrom, txCountTo] = await Promise.all([
+    getTxCount({ chainId: tokenFrom.chainId }),
+    getTxCount({ chainId: tokenTo.chainId }),
+  ]);
 
   const [gasPriceFrom, gasPriceTo] = await Promise.all([
     getGasPrice({ chainId: networkFrom.chainId }),
@@ -57,6 +59,7 @@ export const executeRoute = async ({
     ),
     token: getUsdcByChainId(tokenFrom.chainId),
     gasPrice: parseUnits(gasPriceFrom.gasPrice, "gwei"),
+    nonce: txCountFrom,
   });
 
   const chainFromSwap = await retryRequest(
@@ -73,15 +76,15 @@ export const executeRoute = async ({
     to: chainFromSwap.tx.to,
     data: chainFromSwap.tx.data,
     value: constants.Zero,
-    gasPrice: parseUnits(gasPriceFrom.gasPrice, "gwei"),
-    gasLimit: chainFromSwap.tx.gas,
+    gasPrice: parseUnits(`${10 * +gasPriceFrom.gasPrice}`, "gwei"),
+    nonce: txCountFrom + 1,
   });
 
-  console.log("\nStarted Swap");
+  console.log("\nStarted Swap:");
+  console.log(`https://${networkFrom.explorerAddress}/tx/${firstTx.hash}`);
   await firstTx.wait();
 
-  console.log("Tx Success:");
-  console.log(`https://${networkFrom.explorerAddress}/tx/${firstTx.hash}`);
+  console.log("Tx Success");
 
   const bridge = await retryRequest(() =>
     getBridge({
@@ -96,21 +99,22 @@ export const executeRoute = async ({
     amount: BigNumber.from(chainFromSwap.toAmount),
     token: tokenFrom,
     gasPrice: parseUnits(gasPriceFrom.gasPrice, "gwei"),
+    nonce: txCountFrom + 2,
   });
 
   const secondTx = await signerFrom.sendTransaction({
     to: bridge.tx.to,
     data: bridge.tx.data,
     value: constants.Zero,
-    gasPrice: parseUnits(gasPriceFrom.gasPrice, "gwei"),
-    gasLimit: formatEther(BridgeGasLimit[tokenFrom.chainId]),
+    gasPrice: parseUnits(`${10 * +gasPriceFrom.gasPrice}`, "gwei"),
+    nonce: 3,
   });
 
-  console.log("\nStarted Bridge");
+  console.log("\nStarted Bridge:");
+  console.log(`https://${networkFrom.explorerAddress}/tx/${secondTx.hash}`);
   await secondTx.wait();
 
-  console.log("Tx Success:");
-  console.log(`https://${networkFrom.explorerAddress}/tx/${secondTx.hash}`);
+  console.log("Tx Success");
 
   let gotFunds = false;
 
@@ -133,6 +137,7 @@ export const executeRoute = async ({
     amount: BigNumber.from(bridge.tokenAmountOut.amount),
     token: tokenTo,
     gasPrice: parseUnits(gasPriceTo.gasPrice, "gwei"),
+    nonce: txCountTo + 0,
   });
 
   const chainToSwap = await retryRequest(
@@ -149,13 +154,11 @@ export const executeRoute = async ({
     to: chainToSwap.tx.to,
     data: chainToSwap.tx.data,
     value: constants.Zero,
-    gasPrice: parseUnits(gasPriceTo.gasPrice, "gwei"),
-    gasLimit: chainToSwap.tx.gas,
+    gasPrice: parseUnits(`${10 * +gasPriceTo.gasPrice}`, "gwei"),
+    nonce: txCountTo + 1,
   });
 
-  console.log("\nStarted Swap");
-  await thirdTx.wait();
-
-  console.log("Tx Success:");
+  console.log("\nStarted Swap:");
   console.log(`https://${networkTo.explorerAddress}/tx/${thirdTx.hash}`);
+  await thirdTx.wait();
 };

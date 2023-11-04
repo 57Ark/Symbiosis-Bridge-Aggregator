@@ -1,30 +1,15 @@
 import { flatten, maxBy } from "lodash";
 import { Token, TokenRoute } from "../../types/token";
-import { NETWORKS } from "../utils/constants";
 import { getNetworkByChainId } from "../utils/utils";
-import { getCoinPrice } from "./base/getCoinPrice";
-import { getGasPrice } from "./base/getGasPrice";
-import { getTokenPrice } from "./base/getTokenPrice";
 import { getBestAmounts } from "./getBestAmount";
+import { getTokenPrices } from "./getTokenPrices";
 
 export const getBestAmountForAllPairs = async ({
   tokenList,
 }: { tokenList: Token[] }) => {
-  const coinPrices = await Promise.all(
-    NETWORKS.map((network) =>
-      getCoinPrice({
-        chainId: network.chainId,
-      })
-    )
-  );
-
-  const gasPrices = await Promise.all(
-    NETWORKS.map((network) => getGasPrice({ chainId: network.chainId }))
-  );
-
-  const tokenPrices = await Promise.all(
-    tokenList.map((token) => getTokenPrice({ ...token }))
-  );
+  const { coinPrices, gasPrices, tokenPrices } = await getTokenPrices({
+    tokenList,
+  });
 
   const baseInfo = tokenPrices.map(({ chainId, price }) => {
     const gasPrice = gasPrices.find(

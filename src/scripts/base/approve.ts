@@ -1,6 +1,5 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { BigNumber, Wallet, constants } from "ethers";
-import { formatEther } from "ethers/lib/utils";
 import { IERC20__factory } from "../../../types/ethers-contracts/IERC20__factory";
 import { Token } from "../../../types/token";
 import { PRIVATE_KEY, WALLET_ADDRESS } from "../../utils/constants";
@@ -11,6 +10,7 @@ interface approveParams {
   amount: BigNumber;
   gasPrice: BigNumber;
   token: Token;
+  nonce: number;
 }
 
 export const approve = async ({
@@ -18,6 +18,7 @@ export const approve = async ({
   amount,
   token,
   gasPrice,
+  nonce,
 }: approveParams) => {
   const network = getNetworkByChainId(token.chainId);
   const provider = new StaticJsonRpcProvider(network.rpc);
@@ -29,13 +30,13 @@ export const approve = async ({
   if (amount.gt(allowance)) {
     const tx = await tokenContract.approve(spender, constants.MaxUint256, {
       gasPrice,
-      gasLimit: formatEther(45000),
+      nonce,
     });
-    console.log("\nStarted Approve");
+    console.log("\nStarted Approve:");
+    console.log(`https://${network.explorerAddress}/tx/${tx.hash}`);
 
     await tx.wait();
 
-    console.log("Tx Success:");
-    console.log(`https://${network.explorerAddress}/tx/${tx.hash}`);
+    console.log("Tx Success");
   }
 };

@@ -1,6 +1,6 @@
 import { findIndex, maxBy, sortBy } from "lodash";
 import { CoinPrice, GasPrice } from "../../types/network";
-import { TokenRoute, TokenWithPrice } from "../../types/token";
+import { TokenRoute } from "../../types/token";
 import { getMultipleProfit } from "./getMultipleProfit";
 
 interface GetBestAmountParams extends TokenRoute {
@@ -37,7 +37,7 @@ export const ExtendAmountList = ({ profitList }: { profitList: Profit[] }) => {
     lowerAmount = profitList[index].amount / 2;
     higherAmount =
       (profitList[index].amount + profitList[index + 1].amount) / 2;
-  } else if (index === profitList.length) {
+  } else if (index === profitList.length - 1) {
     lowerAmount = (profitList[index].amount + profitList[index - 1].amount) / 2;
     higherAmount = profitList[index].amount + profitList[0].amount;
   } else {
@@ -85,7 +85,7 @@ export const getBestAmounts = async ({
 
     currentProfits.forEach((profit) => profitList.push(profit));
     profitList = sortBy(profitList, ["amount", "profit"]).filter(
-      ({ profit }) => profit !== undefined
+      ({ profit, amount }) => profit !== undefined
     );
   }
 
