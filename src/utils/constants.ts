@@ -40,35 +40,33 @@ export const TOKEN_LIST: Record<string, Token[]> = {
       decimals: 18,
       symbol: "XDAO",
     },
-    // {
-    //   chainId: 42161,
-    //   address: "0x71eebA415A523F5C952Cc2f06361D5443545Ad28",
-    //   decimals: 18,
-    //   symbol: "XDAO",
-    // },
+    {
+      chainId: 42161,
+      address: "0x71eebA415A523F5C952Cc2f06361D5443545Ad28",
+      decimals: 18,
+      symbol: "XDAO",
+    },
   ],
-  // Check before adding
-  // https://api.bridge.symbiosis.finance/crosschain/v1/chains
-  // sis: [
-  // {
-  //   chainId: 1,
-  //   address: "0xd38BB40815d2B0c2d2c866e0c72c5728ffC76dd9",
-  //   decimals: 18,
-  //   symbol: "SIS",
-  // },
-  // {
-  //   chainId: 56,
-  //   address: "0xF98b660AdF2ed7d9d9D9dAACC2fb0CAce4F21835",
-  //   decimals: 18,
-  //   symbol: "SIS",
-  // },
-  // {
-  //   chainId: 42161,
-  //   address: "0x9E758B8a98a42d612b3D38B66a22074DC03D7370",
-  //   decimals: 18,
-  //   symbol: "SIS",
-  // },
-  // ],
+  sis: [
+    {
+      chainId: 1,
+      address: "0xd38BB40815d2B0c2d2c866e0c72c5728ffC76dd9",
+      decimals: 18,
+      symbol: "SIS",
+    },
+    {
+      chainId: 56,
+      address: "0xF98b660AdF2ed7d9d9D9dAACC2fb0CAce4F21835",
+      decimals: 18,
+      symbol: "SIS",
+    },
+    {
+      chainId: 42161,
+      address: "0x9E758B8a98a42d612b3D38B66a22074DC03D7370",
+      decimals: 18,
+      symbol: "SIS",
+    },
+  ],
 };
 
 export const USDC_TOKEN: Token[] = [

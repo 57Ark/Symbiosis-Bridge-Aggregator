@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "lint": "rome format ./ --write && rome check ./",
-    "XDAO": "pnpm ts-node-esm src/getBestPair.ts XDAO",
-    "SIS": "pnpm ts-node-esm src/getBestPair.ts SIS"
+    "XDAO": "pnpm ts-node src/getBestPair.ts XDAO",
+    "SIS": "pnpm ts-node src/getBestPair.ts SIS"
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@typechain/ethers-v5": "^10.2.0",
-    "@types/node": "^18.15.3",
+    "@types/node": "^20.9.0",
     "nodemon": "^2.0.21",
     "rome": "12.1.3",
     "ts-node": "^10.9.1",
