@@ -15,7 +15,7 @@ export const getBridge = async ({
   amountFrom,
 }: GetBridgeParams) => {
   const { data } = await axios.post<SymbiosisExactInResponse>(
-    "https://api.bridge.symbiosis.finance/crosschain/v1/swapping/exact_in",
+    "https://api.teleport.symbiosis.finance/crosschain/v1/swapping/exact_in",
     {
       tokenAmountIn: {
         ...tokenFrom,

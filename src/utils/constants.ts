@@ -34,12 +34,12 @@ export const TOKEN_LIST: Record<string, Token[]> = {
       decimals: 18,
       symbol: "XDAO",
     },
-    {
-      chainId: 137,
-      address: "0x71eebA415A523F5C952Cc2f06361D5443545Ad28",
-      decimals: 18,
-      symbol: "XDAO",
-    },
+    // {
+    //   chainId: 137,
+    //   address: "0x71eebA415A523F5C952Cc2f06361D5443545Ad28",
+    //   decimals: 18,
+    //   symbol: "XDAO",
+    // },
     {
       chainId: 42161,
       address: "0x71eebA415A523F5C952Cc2f06361D5443545Ad28",
