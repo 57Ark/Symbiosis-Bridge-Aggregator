@@ -12,10 +12,10 @@ export const getCoinPrice = async ({ chainId }: { chainId: number }) => {
       maticusd?: string;
     }>
   >(
-    `https://api.${
-      network.explorerAddress
-    }/api?module=stats&action=${network.coin.toLowerCase()}price&apikey=${
-      network.apiKey
+    `${
+      network.explorerApi
+    }?module=stats&action=${network.coin.toLowerCase()}price${
+      network.apiKey ? `&apikey=${network.apiKey}` : ""
     }`
   );
 

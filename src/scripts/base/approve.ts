@@ -33,7 +33,7 @@ export const approve = async ({
       nonce,
     });
     console.log("\nStarted Approve:");
-    console.log(`https://${network.explorerAddress}/tx/${tx.hash}`);
+    console.log(`${network.explorerAddress}/tx/${tx.hash}`);
 
     await tx.wait();
 

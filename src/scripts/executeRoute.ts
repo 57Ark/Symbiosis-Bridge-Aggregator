@@ -81,7 +81,7 @@ export const executeRoute = async ({
   });
 
   console.log("\nStarted Swap:");
-  console.log(`https://${networkFrom.explorerAddress}/tx/${firstTx.hash}`);
+  console.log(`${networkFrom.explorerAddress}/tx/${firstTx.hash}`);
   await firstTx.wait();
 
   console.log("Tx Success");
@@ -111,7 +111,7 @@ export const executeRoute = async ({
   });
 
   console.log("\nStarted Bridge:");
-  console.log(`https://${networkFrom.explorerAddress}/tx/${secondTx.hash}`);
+  console.log(`${networkFrom.explorerAddress}/tx/${secondTx.hash}`);
   await secondTx.wait();
 
   console.log("Tx Success");
@@ -159,6 +159,6 @@ export const executeRoute = async ({
   });
 
   console.log("\nStarted Swap:");
-  console.log(`https://${networkTo.explorerAddress}/tx/${thirdTx.hash}`);
+  console.log(`${networkTo.explorerAddress}/tx/${thirdTx.hash}`);
   await thirdTx.wait();
 };

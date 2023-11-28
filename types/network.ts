@@ -4,8 +4,9 @@ export interface Network {
   rpc: string;
   explorerName: string;
   explorerAddress: string;
+  explorerApi: string;
   coin: string;
-  apiKey: string;
+  apiKey?: string;
 }
 
 export interface GasPrice {

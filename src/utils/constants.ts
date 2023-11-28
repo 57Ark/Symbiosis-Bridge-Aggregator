@@ -18,6 +18,7 @@ export const BridgeGasLimit: Record<number, number> = {
   56: 320000,
   137: 320000,
   42161: 1240000,
+  324: 3500000,
 };
 
 export const TOKEN_LIST: Record<string, Token[]> = {
@@ -66,6 +67,12 @@ export const TOKEN_LIST: Record<string, Token[]> = {
       decimals: 18,
       symbol: "SIS",
     },
+    {
+      chainId: 324,
+      address: "0xdd9f72afED3631a6C85b5369D84875e6c42f1827",
+      decimals: 18,
+      symbol: "SIS",
+    },
   ],
 };
 
@@ -94,6 +101,12 @@ export const USDC_TOKEN: Token[] = [
     decimals: 6,
     symbol: "USDC",
   },
+  {
+    chainId: 324,
+    address: "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4",
+    decimals: 6,
+    symbol: "USDC",
+  },
 ];
 
 export const NETWORKS: Network[] = [
@@ -102,7 +115,8 @@ export const NETWORKS: Network[] = [
     rpc: "https://eth-mainnet.nodereal.io/v1/e3b672edf8fa41d997d714452db93c67",
     chainId: 1,
     explorerName: "Etherscan",
-    explorerAddress: "etherscan.io",
+    explorerAddress: "https://etherscan.io",
+    explorerApi: "https://api.etherscan.io/api",
     coin: "ETH",
     apiKey: process.env.ETHERSCAN_KEY ?? "",
   },
@@ -111,7 +125,8 @@ export const NETWORKS: Network[] = [
     name: "BNB Chain",
     rpc: "https://bsc-mainnet.nodereal.io/v1/e8d837bcef6542649a53820a0db750fa",
     explorerName: "BscScan",
-    explorerAddress: "bscscan.com",
+    explorerAddress: "https://bscscan.com",
+    explorerApi: "https://api.bscscan.com/api",
     coin: "BNB",
     apiKey: process.env.BSCSCAN_KEY ?? "",
   },
@@ -120,7 +135,8 @@ export const NETWORKS: Network[] = [
     name: "Polygon",
     rpc: "https://polygon-mainnet.nodereal.io/v1/4760050f989e48f798b5c084d3eaae8f",
     explorerName: "PolygonScan",
-    explorerAddress: "polygonscan.com",
+    explorerAddress: "https://polygonscan.com",
+    explorerApi: "https://api.polygonscan.com/api",
     coin: "Matic",
     apiKey: process.env.POLYGONSCAN_KEY ?? "",
   },
@@ -129,8 +145,18 @@ export const NETWORKS: Network[] = [
     name: "Arbitrum",
     rpc: "https://arb1.arbitrum.io/rpc",
     explorerName: "Arbiscan",
-    explorerAddress: "arbiscan.io",
+    explorerAddress: "https://arbiscan.io",
+    explorerApi: "https://api.arbiscan.io/api",
     coin: "ETH",
     apiKey: process.env.ARBISCAN_KEY ?? "",
+  },
+  {
+    chainId: 324,
+    name: "ZkSync Era",
+    rpc: "https://mainnet.era.zksync.io",
+    explorerName: "zkSync Sacnner",
+    explorerAddress: "https://explorer.zksync.io",
+    explorerApi: "https://block-explorer-api.mainnet.zksync.io/api",
+    coin: "ETH",
   },
 ];
