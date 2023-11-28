@@ -68,6 +68,7 @@ export const executeRoute = async ({
         amountFrom,
         tokenFrom: getUsdcByChainId(tokenFrom.chainId),
         tokenTo: tokenFrom,
+        gasPrice: gasPriceFrom.gasPrice,
       }),
     5
   );
@@ -146,6 +147,7 @@ export const executeRoute = async ({
         amountFrom: formatUnits(bridge.tokenAmountOut.amount, tokenTo.decimals),
         tokenFrom: tokenTo,
         tokenTo: getUsdcByChainId(tokenTo.chainId),
+        gasPrice: gasPriceTo.gasPrice,
       }),
     5
   );

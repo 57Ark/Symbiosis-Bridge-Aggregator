@@ -1,12 +1,19 @@
 import axios from "axios";
-import { oneInchConfig } from "../../utils/constants";
+import { OpenoceanRouters, oneInchConfig } from "../../utils/constants";
+import { getNetworkByChainId } from "../../utils/utils";
 
 export const getOneInchRouter = async ({ chainId }: { chainId: number }) => {
-  const { data } = await axios.get<{ address: string }>(
-    `https://api.1inch.dev/swap/v5.2/${chainId}/approve/spender`,
+  const network = getNetworkByChainId(chainId);
 
-    oneInchConfig
-  );
+  if (network.supportedDexes.includes("1inch")) {
+    const { data } = await axios.get<{ address: string }>(
+      `https://api.1inch.dev/swap/v5.2/${chainId}/approve/spender`,
 
-  return data;
+      oneInchConfig
+    );
+
+    return data;
+  }
+
+  return { address: OpenoceanRouters[chainId] };
 };

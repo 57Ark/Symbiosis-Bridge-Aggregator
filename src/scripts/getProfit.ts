@@ -50,6 +50,12 @@ export const getProfit = async ({
         amountFrom,
         tokenFrom: getUsdcByChainId(tokenFrom.chainId),
         tokenTo: tokenFrom,
+        gasPrice:
+          gasPrices
+            .find(
+              (networkGasPrice) => networkGasPrice.chainId === tokenFrom.chainId
+            )
+            ?.gasPrice.toString() ?? "0",
       }),
     5
   );
@@ -68,6 +74,12 @@ export const getProfit = async ({
         amountFrom: formatUnits(bridge.tokenAmountOut.amount, tokenTo.decimals),
         tokenFrom: tokenTo,
         tokenTo: getUsdcByChainId(tokenTo.chainId),
+        gasPrice:
+          gasPrices
+            .find(
+              (networkGasPrice) => networkGasPrice.chainId === tokenTo.chainId
+            )
+            ?.gasPrice.toString() ?? "0",
       }),
     5
   );

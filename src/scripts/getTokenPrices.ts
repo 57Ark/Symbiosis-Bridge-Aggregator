@@ -18,7 +18,13 @@ export const getTokenPrices = async ({ tokenList }: { tokenList: Token[] }) => {
   );
 
   const tokenPrices = await Promise.all(
-    tokenList.map((token) => getTokenPrice({ ...token }))
+    tokenList.map((token) => {
+      const gasPrice =
+        gasPrices
+          .find((networkGasPrice) => networkGasPrice.chainId === token.chainId)
+          ?.gasPrice.toString() ?? "0";
+      return getTokenPrice({ ...token, gasPrice });
+    })
   );
 
   return { coinPrices, gasPrices, tokenPrices };

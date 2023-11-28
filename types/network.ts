@@ -1,3 +1,5 @@
+export type Dex = "1inch" | "openocean";
+
 export interface Network {
   chainId: number;
   name: string;
@@ -7,6 +9,8 @@ export interface Network {
   explorerApi: string;
   coin: string;
   apiKey?: string;
+
+  supportedDexes: Dex[];
 }
 
 export interface GasPrice {
