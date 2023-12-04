@@ -40,3 +40,29 @@ export const getUsdcByChainId = (chainId: number | string) => {
 
   return token;
 };
+
+export async function consistentRequests<T>(
+  executablePromise: (() => Promise<T>)[],
+  sleepSeconds?: number
+): Promise<T[]> {
+  const len = executablePromise.length;
+  console.log(`${len} Request${len > 1 ? "s" : ""} left`);
+
+  const request = executablePromise[len - 1];
+  const result = await request();
+
+  if (len <= 1) {
+    return [result];
+  }
+
+  if (sleepSeconds) {
+    await sleep(sleepSeconds * 1000);
+  }
+
+  const resultList = await consistentRequests(
+    executablePromise.slice(0, len - 1),
+    sleepSeconds
+  );
+
+  return resultList.concat([result]);
+}

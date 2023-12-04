@@ -21,7 +21,13 @@ pnpm ts-node src/getBestPair.ts [token]
 Replace `[token]` with the token you want to bridge. For example:
 
 ```
-pnpm ts-node src/getBestPair.ts XDAO
+pnpm ts-node src/getBestPair.ts SIS
+```
+
+All pair comparisons are making in parallel. If one of the third-parties blocks the requests due to "Too many requests (429)", you can execute them sequentially by adding "false" to the end of the command. For example:
+
+```
+pnpm ts-node src/getBestPair.ts SIS false
 ```
 
 ### Prices
@@ -36,15 +42,15 @@ pnpm ts-node src/getPrices.ts [token]
 Replace `[token]` with the token you want to bridge. For example:
 
 ```
-pnpm ts-node src/getPrices.ts XDAO
+pnpm ts-node src/getPrices.ts SIS
 ```
 
 ## Available Tokens
 
 Currently, you can bridge the following token:
 
-- **XDAO**
 - **SIS**
+- **XDAO**
 
 
 Thank you for using Symbiosis Bridge Aggregator! If you have any questions or need assistance, feel free to reach out to us.

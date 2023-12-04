@@ -8,7 +8,7 @@ interface GetBestAmountParams extends TokenRoute {
   coinPrices: CoinPrice[];
 }
 
-interface Profit {
+export interface Profit {
   amount: number;
   profit?: number;
 }
@@ -85,8 +85,14 @@ export const getBestAmounts = async ({
 
     currentProfits.forEach((profit) => profitList.push(profit));
     profitList = sortBy(profitList, ["amount", "profit"]).filter(
-      ({ profit, amount }) => profit !== undefined
+      ({ profit }) => profit !== undefined
     );
+
+    const maxCurrentProfit = maxBy(profitList, ({ profit }) => profit);
+
+    if (maxCurrentProfit && (maxCurrentProfit?.profit ?? 0) <= 0) {
+      break;
+    }
   }
 
   return profitList;

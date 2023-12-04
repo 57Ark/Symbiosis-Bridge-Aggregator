@@ -5,7 +5,9 @@
   "scripts": {
     "lint": "rome format ./ --write && rome check ./",
     "XDAO": "pnpm ts-node src/getBestPair.ts XDAO",
-    "SIS": "pnpm ts-node src/getBestPair.ts SIS"
+    "SIS": "pnpm ts-node src/getBestPair.ts SIS",
+    "xdao-price": "pnpm ts-node src/getPrices.ts XDAO",
+    "sis-price": "pnpm ts-node src/getPrices.ts SIS"
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",

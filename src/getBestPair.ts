@@ -5,7 +5,7 @@ import { TOKEN_LIST } from "./utils/constants";
 import { getNetworkByChainId } from "./utils/utils";
 
 const main = async () => {
-  const [, , tokenName] = process.argv;
+  const [, , tokenName, isConsistentRequests] = process.argv;
 
   const tokenList = TOKEN_LIST[tokenName.toLowerCase()];
 
@@ -13,7 +13,10 @@ const main = async () => {
     return console.log("\x1b[31mInvalid token\x1b[0m");
   }
 
-  const bestPair = await getBestAmountForAllPairs({ tokenList });
+  const bestPair = await getBestAmountForAllPairs({
+    tokenList,
+    isConsistentRequests: isConsistentRequests === "true",
+  });
 
   console.log("\n\n\n");
 

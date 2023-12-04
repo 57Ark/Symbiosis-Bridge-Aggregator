@@ -1,12 +1,13 @@
 import { flatten, maxBy } from "lodash";
 import { Token, TokenRoute } from "../../types/token";
-import { getNetworkByChainId } from "../utils/utils";
-import { getBestAmounts } from "./getBestAmount";
+import { consistentRequests, getNetworkByChainId } from "../utils/utils";
+import { Profit, getBestAmounts } from "./getBestAmount";
 import { getTokenPrices } from "./getTokenPrices";
 
 export const getBestAmountForAllPairs = async ({
   tokenList,
-}: { tokenList: Token[] }) => {
+  isConsistentRequests = false,
+}: { tokenList: Token[]; isConsistentRequests?: boolean }) => {
   const { coinPrices, gasPrices, tokenPrices } = await getTokenPrices({
     tokenList,
   });
@@ -47,15 +48,31 @@ export const getBestAmountForAllPairs = async ({
     }
   }
 
-  const crosschainSwaps = await Promise.all(
-    tokenPairs.map((pair) =>
-      getBestAmounts({
-        gasPrices,
-        coinPrices,
-        ...pair,
-      })
-    )
-  );
+  let crosschainSwaps: Profit[][] = [];
+
+  if (isConsistentRequests) {
+    crosschainSwaps = await consistentRequests(
+      tokenPairs.map(
+        (pair) => () =>
+          getBestAmounts({
+            gasPrices,
+            coinPrices,
+            ...pair,
+          })
+      ),
+      3
+    );
+  } else {
+    crosschainSwaps = await Promise.all(
+      tokenPairs.map((pair) =>
+        getBestAmounts({
+          gasPrices,
+          coinPrices,
+          ...pair,
+        })
+      )
+    );
+  }
 
   console.clear();
   console.table(baseInfo);
