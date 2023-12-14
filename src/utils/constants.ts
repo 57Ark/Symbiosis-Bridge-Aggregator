@@ -6,6 +6,8 @@ require("dotenv").config();
 export const WALLET_ADDRESS = process.env.WALLET_ADDRESS ?? "";
 export const PRIVATE_KEY = process.env.PRIVATE_KEY ?? "";
 
+export const COVALENTHQ_KEY = process.env.COVALENTHQ_KEY ?? "";
+
 export const oneInchConfig = {
   headers: {
     accept: "application/json",
@@ -31,18 +33,18 @@ export const TOKEN_LIST: Record<string, Token[]> = {
       decimals: 18,
       symbol: "XDAO",
     },
-    // {
-    //   chainId: 56,
-    //   address: "0x71eebA415A523F5C952Cc2f06361D5443545Ad28",
-    //   decimals: 18,
-    //   symbol: "XDAO",
-    // },
-    // {
-    //   chainId: 137,
-    //   address: "0x71eebA415A523F5C952Cc2f06361D5443545Ad28",
-    //   decimals: 18,
-    //   symbol: "XDAO",
-    // },
+    {
+      chainId: 56,
+      address: "0x71eebA415A523F5C952Cc2f06361D5443545Ad28",
+      decimals: 18,
+      symbol: "XDAO",
+    },
+    {
+      chainId: 137,
+      address: "0x71eebA415A523F5C952Cc2f06361D5443545Ad28",
+      decimals: 18,
+      symbol: "XDAO",
+    },
     {
       chainId: 42161,
       address: "0x71eebA415A523F5C952Cc2f06361D5443545Ad28",
@@ -75,13 +77,12 @@ export const TOKEN_LIST: Record<string, Token[]> = {
       decimals: 18,
       symbol: "SIS",
     },
-    // Openocean sends outAmount === 0
-    // {
-    //   chainId: 59144,
-    //   address: "0x6EF95B6f3b0F39508e3E04054Be96D5eE39eDE0d",
-    //   decimals: 18,
-    //   symbol: "SIS",
-    // },
+    {
+      chainId: 59144,
+      address: "0x6EF95B6f3b0F39508e3E04054Be96D5eE39eDE0d",
+      decimals: 18,
+      symbol: "SIS",
+    },
     {
       chainId: 534352,
       address: "0x1467b62A6AE5CdcB10A6a8173cfe187DD2C5a136",
@@ -178,7 +179,11 @@ export const NETWORKS: Network[] = [
     explorerApi: "https://api.polygonscan.com/api",
     coin: "Matic",
     apiKey: process.env.POLYGONSCAN_KEY ?? "",
-    supportedDexes: ["1inch", "openocean"],
+    supportedDexes: [
+      // Currently removed due to liqudity troubles
+      // "1inch",
+      "openocean",
+    ],
   },
   {
     chainId: 42161,
